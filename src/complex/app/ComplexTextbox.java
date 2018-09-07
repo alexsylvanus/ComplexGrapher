@@ -38,31 +38,7 @@ public class ComplexTextbox implements ActionListener {
 	
 
 	
-	// Constructors
-	public ComplexTextbox() {
-		super();
-		
-		// Create the label 
-		jl = new JLabel("f(z) = ");
-		jl.setBounds(default_x, default_y, screenHeight/25, default_height);
-		jl.setFont(font);
-		// Create new text field object and assign it to the member text field
-		jtf1 = new JTextField();
-		
-		// Initialize the boundaries of the text field
-		jtf1.setBounds(default_x+jl.getWidth()+bufferSpace, default_y, default_width, default_height);
-		jtf1.setFont(font);
-		
-		// Set the initial text in the box to the function 'z'
-		expression = "z";
-		jtf1.setText(expression);
-		
-		// Initialize the complex function
-		func = new ComplexFunction(expression);
-		
-		// Allow the text field to receive events from the class
-		jtf1.addActionListener(this);
-	}
+	// Constructor
 	public ComplexTextbox(int x, int y, int width, int height) {
 		super();
 		
