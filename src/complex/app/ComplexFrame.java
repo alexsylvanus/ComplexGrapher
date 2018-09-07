@@ -121,6 +121,9 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		directory.setBounds(r);
 		image = new ComplexImage(g, tb.getFunction());
 		
+		// Repaint the image
+		this.repaint();
+		
 		// Check if the button was pressed
 		if (e.getSource().equals(createJPG)) {
 			try {
@@ -129,8 +132,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		// Repaint the image
-		this.repaint();
+		
 		}
 	}
 	@Override
