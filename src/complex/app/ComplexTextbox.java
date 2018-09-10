@@ -29,7 +29,6 @@ public class ComplexTextbox implements ActionListener {
 	public static final int screenWidth = screenSize.width;
 	public static final int screenHeight = screenSize.height;
 	public static final int bufferSpace = screenHeight/200;
-	
 	public static final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, screenHeight/80);
 	
 
