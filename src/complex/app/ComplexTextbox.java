@@ -44,8 +44,8 @@ public class ComplexTextbox implements ActionListener {
 		
 		// Create new label
 		jl = new JLabel("f(z) = ");
-		jl.setBounds(x, y, screenHeight/25, height);
 		jl.setFont(font);
+		jl.setBounds(x, y, (int)jl.getPreferredSize().getWidth(), height);
 		
 		// Create new text field object and assign it to the member text field
 		jtf1 = new JTextField();
@@ -67,6 +67,9 @@ public class ComplexTextbox implements ActionListener {
 	public void setXY(int x, int y) {
 		jl.setBounds(x, y, jl.getWidth(), jl.getHeight());
 		jtf1.setBounds(x+jl.getWidth()+bufferSpace, y, jtf1.getWidth(), jtf1.getHeight());
+	}
+	public int getEndX() {
+		return (int)jtf1.getBounds().getMaxX();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -77,17 +77,21 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		ComplexGraph g = new ComplexGraph(Width - x_offset, Height - y_offset);
 		
 		// Create a text box underneath the graph with 10 pixels of space between
-		tb = new ComplexTextbox(x_offset, 2*bufferSpace, textLength, textHeight);
+		tb = new ComplexTextbox(x_offset+2*bufferSpace, 2*bufferSpace, textLength, textHeight);
 		tb.jtf1.addActionListener(this);
 		
 		createJPG = new JButton("Create image");
 		createJPG.addActionListener(this);
-		createJPG.setBounds(Width - 2*(x_offset+2*bufferSpace), 2*bufferSpace, 2*x_offset, textHeight);
+		createJPG.setBounds(tb.getEndX()+2*bufferSpace, 2*bufferSpace, screenHeight/5, textHeight);
 		createJPG.setFont(font);
 		directory = new JLabel("File in: ");
 		Rectangle r = createJPG.getBounds();
-		r.setLocation(r.x, r.y+2*bufferSpace+textHeight);
+		
+		// Determine where to put label
+		r.setLocation((int)r.getMaxX() + 2*bufferSpace, 2*bufferSpace);
+		r.setSize(screenWidth-r.x, textHeight);
 		directory.setBounds(r);
+		directory.setFont(font);
 		
 		// Create the complex Image
 		image = new ComplexImage(g, tb.getFunction());
@@ -101,7 +105,6 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		this.getContentPane().add(directory);
 		this.setIconImage(image);
 		this.setVisible(true);
-		
 	}
 	
 	// Override functions
@@ -113,11 +116,11 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		
 		// Create graph from Screen size and offset
 		ComplexGraph g = new ComplexGraph(this.getWidth() - x_offset, this.getHeight() - y_offset);
-		tb.setXY(x_offset, 2*bufferSpace);
-		createJPG.setBounds(this.getWidth() - 2*(x_offset+2*bufferSpace), 2*bufferSpace, 2*x_offset, textHeight);
-		
+		tb.setXY(x_offset+2*bufferSpace, 2*bufferSpace);
+		createJPG.setBounds(tb.getEndX()+2*bufferSpace, 2*bufferSpace, screenHeight/5, textHeight);
 		Rectangle r = createJPG.getBounds();
-		r.setLocation(r.x, r.y+2*bufferSpace+textHeight);
+		r.setLocation((int)r.getMaxX() + 2*bufferSpace, 2*bufferSpace);
+		r.setSize(screenWidth-r.x, textHeight);
 		directory.setBounds(r);
 		image = new ComplexImage(g, tb.getFunction());
 		
@@ -132,7 +135,6 @@ public class ComplexFrame extends JFrame implements ActionListener{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		
 		}
 	}
 	@Override
@@ -154,7 +156,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		return Height;
 	}
 	public static void main(String[] args) {
-		ComplexFrame complexframe = new ComplexFrame(screenWidth/2, screenHeight/2, screenHeight/10, screenHeight/10);
+		ComplexFrame complexframe = new ComplexFrame(screenWidth/2, screenWidth/2, 0, screenHeight/10);
 		complexframe.setVisible(true);
 	}
 }
