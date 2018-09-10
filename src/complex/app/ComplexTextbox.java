@@ -38,7 +38,7 @@ public class ComplexTextbox implements ActionListener {
 		super();
 		
 		// Create new label
-		jl = new JLabel(" f(z) = ");
+		jl = new JLabel("f(z) = ");
 		jl.setFont(font);
 		jl.setBounds(x, y, (int)jl.getPreferredSize().getWidth(), height);
 		
