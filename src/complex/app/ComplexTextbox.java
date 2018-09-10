@@ -31,10 +31,6 @@ public class ComplexTextbox implements ActionListener {
 	public static final int bufferSpace = screenHeight/200;
 	
 	public static final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, screenHeight/80);
-	public static final int default_x = 100;
-	public static final int default_y = 100;
-	public static final int default_width = 300;
-	public static final int default_height = 60;
 	
 
 	
