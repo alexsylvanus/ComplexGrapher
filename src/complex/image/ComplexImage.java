@@ -43,7 +43,7 @@ public class ComplexImage extends BufferedImage {
 		super(g.width(), g.height(), BufferedImage.TYPE_INT_RGB);
 		graph = g;
 		func = f;
-		fillImageContour();
+		fillImageWeight();
 	}
 	
 	public void fillImageContour() {
