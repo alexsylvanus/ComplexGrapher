@@ -33,7 +33,6 @@ public class ComplexFrame extends JFrame implements ActionListener{
 	
 	// Private members
 	private ComplexImage image;
-	private ComplexTextbox tb;
 	private FunctionPanel FP;
 	private JButton jpgButton;
 	private JLabel directory;
@@ -102,64 +101,6 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		// Display the frame
 		this.setVisible(true);
 	}
-	public ComplexFrame(int Width, int Height, int x_offset, int y_offset) {
-		// Create the frame
-		super("Complex Grapher");
-		
-		// Set minimum sizes
-		if (Width<screenWidth/2) {
-			Width = screenWidth/2;
-		}
-		if (Height<screenHeight/2) {
-			Height = screenHeight/2;
-		}
-		if (y_offset < textHeight) {
-			y_offset = textHeight;
-		}
-		
-		// Set the bounds of the frame
-		this.setBounds(100, 100, Width, Height);
-		
-		// Assign integer member values
-		this.Width = Width;
-		this.Height = Height;
-		this.x_offset = x_offset;
-		this.y_offset = y_offset;
-		
-		// Create graph from Screen size and offset
-		ComplexGraph g = new ComplexGraph(Width - x_offset, Height - y_offset);
-		
-		// Create a text box underneath the graph with 10 pixels of space between
-		tb = new ComplexTextbox(x_offset+2*bufferSpace, 2*bufferSpace, textLength, textHeight);
-		tb.funcField.addActionListener(this);
-		
-		jpgButton = new JButton("Create image");
-		jpgButton.addActionListener(this);
-		jpgButton.setBounds(tb.getEndX()+2*bufferSpace, 2*bufferSpace, screenHeight/5, textHeight);
-		jpgButton.setFont(font);
-		directory = new JLabel("File in: ");
-		Rectangle r = jpgButton.getBounds();
-		
-		// Determine where to put label
-		r.setLocation((int)r.getMaxX() + 2*bufferSpace, 2*bufferSpace);
-		r.setSize(screenWidth-r.x, textHeight);
-		directory.setBounds(r);
-		directory.setFont(font);
-		
-		// Create the complex Image
-		image = new ComplexImage(g, tb.getFunction());
-		
-		// Generate settings for frame
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLayout(null);
-		this.getContentPane().add(tb.funcField);
-		this.getContentPane().add(tb.jl);
-		this.getContentPane().add(jpgButton);
-		this.getContentPane().add(directory);
-		this.setIconImage(image);
-		this.setVisible(true);
-	}
-	
 	// Override functions
 	@Override
 	public void actionPerformed(ActionEvent e) {
