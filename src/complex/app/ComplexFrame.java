@@ -27,7 +27,7 @@ import complex.image.*;
 import complex.math.*;
 
 // Class declaration
-public class ComplexFrame extends JFrame implements ActionListener{
+public class ComplexFrame extends JFrame implements ActionListener, WindowParameters{
 	// Generate serial ID
 	private static final long serialVersionUID = 5470579037102672801L;
 	
@@ -35,21 +35,11 @@ public class ComplexFrame extends JFrame implements ActionListener{
 	private ComplexImage image;
 	private FunctionPanel FP;
 	private ImageButton IB;
-	private JButton jpgButton;
-	private JLabel directory;
+	private JComboBox<String> Algorithm;
 	private int Width;
 	private int Height;
 	private int x_offset;
 	private int y_offset;
-	
-	// Constants
-	private static final int bufferSpace = FunctionPanel.bufferSpace;
-	private static final Font font = FunctionPanel.font;
-	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	public static final int screenWidth = screenSize.width;
-	public static final int screenHeight = screenSize.height;
-	public static final int textHeight = screenHeight/33;
-	public static final int textLength = screenWidth/10;
 	
 	// Constructors
 	public ComplexFrame() {
@@ -60,36 +50,25 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		FP = new FunctionPanel();
 		FP.addActionListener(this); // allows the frame to perform an action triggered by the text box in the function panel
 		
+		// Create new dropdown menu
+		String[] lst = {"Weight Method", "Contour Method"};
+		Algorithm = new JComboBox<String>(lst);
+		Algorithm.setFont(font);
+		Algorithm.setBounds(FP.getMaxX()+bufferSpace, bufferSpace, Algorithm.getPreferredSize().width, textHeight);
+		Algorithm.addActionListener(this);
+		
 		// Create a new image button
-		IB = new ImageButton(FP.getMaxX()+bufferSpace, bufferSpace);
+		IB = new ImageButton((int)Algorithm.getBounds().getMaxX()+bufferSpace, bufferSpace);
 		IB.addActionListener(this);
 		
 		// Assign dimension member values
-		Width = screenWidth/2;
-		Height = screenWidth/2;
+		Width = windowWidth;
+		Height = windowHeight;
 		x_offset = 0;
 		y_offset = FP.getMaxY()+3*bufferSpace;
 		
 		// Set the bounds of the frame
-		this.setBounds(100, 100, screenWidth/2, screenWidth/2);
-		
-		/*
-		// Create the generate jpg button
-		jpgButton = new JButton("Create JPG Image");
-		jpgButton.setFont(font);
-		jpgButton.setBounds(FP.getMaxX()+bufferSpace, bufferSpace, jpgButton.getPreferredSize().width, textHeight);
-		jpgButton.addActionListener(this);
-		
-		// Create rectangle used for file label
-		Rectangle r = jpgButton.getBounds();
-		r.setLocation((int)r.getMaxX()+bufferSpace, bufferSpace);
-		r.setSize(Width - r.x, textHeight);
-		
-		// Create the file label
-		directory = new JLabel("File in: ");
-		directory.setFont(font);
-		directory.setBounds(r);
-		*/
+		this.setBounds(100, 100, Width, Height);
 		
 		// Create the complex image
 		ComplexGraph g = new ComplexGraph(Width-x_offset, Height-y_offset);
@@ -102,9 +81,8 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		
 		// Add the components to the frame
 		this.add(FP);
+		this.add(Algorithm);
 		this.add(IB);
-		// this.add(directory);
-		// this.add(jpgButton);
 		
 		// Display the frame
 		this.setVisible(true);
@@ -112,27 +90,34 @@ public class ComplexFrame extends JFrame implements ActionListener{
 	// Override functions
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// Create a file for writing to jpg
 		File f;
 		
 		// Create graph from Screen size and offset
 		ComplexGraph g = new ComplexGraph(this.getWidth() - x_offset, this.getHeight() - y_offset);
-		// directory.setSize(this.getWidth()-directory.getX(), directory.getHeight());
-		
-		// Regenerate the image
-		image = new ComplexImage(g, new ComplexFunction(FP.getText()));
-		
-		// Repaint the image
-		this.repaint();
 		
 		// Check if the button was pressed
 		if (e.getSource().equals(IB.jpgButton())) {
 			try {
-				f = FileOutput.createJpg("ComplexGraphs", "Graph", image);
-				IB.setText("File in: "+f.getPath());
+				f = FileOutput.createJpg("ComplexGraphs", "Graph", image); // Get the file
+				IB.setText("File in: "+f.getPath()); // Set the file label
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
+		else {
+			ColoringAlgorithm a = ColoringAlgorithm.WEIGHT;
+			// If the Contour choice was selected, switch the enum value
+			if (Algorithm.getSelectedItem().equals("Contour Method")) {
+				a = ColoringAlgorithm.CONTOUR;
+			}
+			
+			// Generate a new image based on the coloring algorithm
+			image = new ComplexImage(g, new ComplexFunction(FP.getText()), a);
+		}
+		
+		// Repaint the image
+		this.repaint();
 	}
 	@Override
 	public void paint(Graphics g) {
@@ -149,6 +134,8 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		Height = super.getHeight();
 		return Height;
 	}
+	
+	// Main function
 	public static void main(String[] args) {
 		// ComplexFrame complexframe = new ComplexFrame(screenWidth/2, screenWidth/2, 0, screenHeight/10);
 		ComplexFrame complexframe = new ComplexFrame();

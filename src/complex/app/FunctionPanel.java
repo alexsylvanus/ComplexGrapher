@@ -14,7 +14,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 // Class declaration
-public class FunctionPanel extends JPanel {
+public class FunctionPanel extends JPanel implements WindowParameters{
 
 	/**
 	 * Generate serial ID
@@ -25,15 +25,6 @@ public class FunctionPanel extends JPanel {
 	private JLabel funcLabel;
 	private JTextField funcField;
 	private Rectangle BOUNDS;
-	
-	// Constants
-	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	public static final int screenWidth = screenSize.width;
-	public static final int screenHeight = screenSize.height;
-	public static final int textHeight = screenHeight/33;
-	public static final int textWidth = screenWidth/10;
-	public static final int bufferSpace = screenHeight/100;
-	public static final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, screenHeight/80);
 	
 	// Constructor
 	public FunctionPanel() {

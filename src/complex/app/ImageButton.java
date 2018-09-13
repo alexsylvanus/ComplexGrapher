@@ -14,7 +14,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 // Class declaration
-public class ImageButton extends JPanel {
+public class ImageButton extends JPanel implements WindowParameters {
 	/**
 	 * Generate serial ID
 	 */
@@ -23,14 +23,6 @@ public class ImageButton extends JPanel {
 	// Private members
 	private JButton jpgButton;
 	private JLabel fileLabel;
-	
-	// Constants
-	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	public static final int screenWidth = screenSize.width;
-	public static final int screenHeight = screenSize.height;
-	public static final int bufferSpace = screenHeight/100;
-	public static final int textHeight = screenHeight/33;
-	public static final Font font = new Font(Font.SANS_SERIF, Font.PLAIN, screenHeight/80);
 	
 	// Constructor
 	public ImageButton(int x, int y) {

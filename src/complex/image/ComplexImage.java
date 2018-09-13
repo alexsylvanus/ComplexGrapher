@@ -21,6 +21,7 @@ import java.util.Scanner;
 import complex.app.*;
 import complex.math.*;
 
+
 // Class declaration
 public class ComplexImage extends BufferedImage {
 	// Private members
@@ -45,7 +46,19 @@ public class ComplexImage extends BufferedImage {
 		func = f;
 		fillImageWeight();
 	}
-	
+	public ComplexImage(ComplexGraph g, ComplexFunction f, ColoringAlgorithm a) {
+		super(g.width(), g.height(), BufferedImage.TYPE_INT_RGB);
+		graph = g;
+		func = f;
+		switch (a) {
+		case WEIGHT:
+			fillImageWeight();
+			break;
+		case CONTOUR:
+			fillImageContour();
+			break;
+		}
+	}
 	public void fillImageContour() {
 		// Declare local variables
 		int X = 0;
