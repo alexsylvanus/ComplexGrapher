@@ -34,6 +34,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 	// Private members
 	private ComplexImage image;
 	private FunctionPanel FP;
+	private ImageButton IB;
 	private JButton jpgButton;
 	private JLabel directory;
 	private int Width;
@@ -43,7 +44,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 	
 	// Constants
 	private static final int bufferSpace = FunctionPanel.bufferSpace;
-	private static final Font font = ComplexTextbox.font;
+	private static final Font font = FunctionPanel.font;
 	public static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static final int screenWidth = screenSize.width;
 	public static final int screenHeight = screenSize.height;
@@ -59,6 +60,10 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		FP = new FunctionPanel();
 		FP.addActionListener(this); // allows the frame to perform an action triggered by the text box in the function panel
 		
+		// Create a new image button
+		IB = new ImageButton(FP.getMaxX()+bufferSpace, bufferSpace);
+		IB.addActionListener(this);
+		
 		// Assign dimension member values
 		Width = screenWidth/2;
 		Height = screenWidth/2;
@@ -68,6 +73,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		// Set the bounds of the frame
 		this.setBounds(100, 100, screenWidth/2, screenWidth/2);
 		
+		/*
 		// Create the generate jpg button
 		jpgButton = new JButton("Create JPG Image");
 		jpgButton.setFont(font);
@@ -83,6 +89,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		directory = new JLabel("File in: ");
 		directory.setFont(font);
 		directory.setBounds(r);
+		*/
 		
 		// Create the complex image
 		ComplexGraph g = new ComplexGraph(Width-x_offset, Height-y_offset);
@@ -95,8 +102,9 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		
 		// Add the components to the frame
 		this.add(FP);
-		this.add(directory);
-		this.add(jpgButton);
+		this.add(IB);
+		// this.add(directory);
+		// this.add(jpgButton);
 		
 		// Display the frame
 		this.setVisible(true);
@@ -108,7 +116,7 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		
 		// Create graph from Screen size and offset
 		ComplexGraph g = new ComplexGraph(this.getWidth() - x_offset, this.getHeight() - y_offset);
-		directory.setSize(this.getWidth()-directory.getX(), directory.getHeight());
+		// directory.setSize(this.getWidth()-directory.getX(), directory.getHeight());
 		
 		// Regenerate the image
 		image = new ComplexImage(g, new ComplexFunction(FP.getText()));
@@ -117,10 +125,10 @@ public class ComplexFrame extends JFrame implements ActionListener{
 		this.repaint();
 		
 		// Check if the button was pressed
-		if (e.getSource().equals(jpgButton)) {
+		if (e.getSource().equals(IB.jpgButton())) {
 			try {
 				f = FileOutput.createJpg("ComplexGraphs", "Graph", image);
-				directory.setText("File in: "+f.getPath());
+				IB.setText("File in: "+f.getPath());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
