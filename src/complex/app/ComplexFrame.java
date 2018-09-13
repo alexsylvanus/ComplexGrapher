@@ -54,7 +54,7 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 		String[] lst = {"Weight Method", "Contour Method"};
 		Algorithm = new JComboBox<String>(lst);
 		Algorithm.setFont(font);
-		Algorithm.setBounds(FP.getMaxX()+bufferSpace, bufferSpace, Algorithm.getPreferredSize().width, textHeight);
+		Algorithm.setBounds(FP.getMaxX(), bufferSpace, Algorithm.getPreferredSize().width, textHeight);
 		Algorithm.addActionListener(this);
 		
 		// Create a new image button
