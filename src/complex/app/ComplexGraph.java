@@ -18,7 +18,7 @@ public class ComplexGraph {
 	 * x_space = 1000/(4-(-4)) = 125
 	 * y_space = 800/(3-(-2) = 160
 	 * x0 = |-4*x_space| = 500
-	 * y0 = |3*y_space| = 
+	 * y0 = |3*y_space| = 480
 	 * */
 	
 	public ComplexGraph() {

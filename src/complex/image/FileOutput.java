@@ -28,7 +28,7 @@ public class FileOutput {
 		String fname = filename + String.valueOf(i) + "." + ext;
 		Path outFile = Paths.get(outFolder.toString(), fname);
 		File F = outFile.toFile(); 
-		while (F.exists()) {
+		while (F.exists()) { // Append an integer to the end of the filename so that files are not overwritten
 			i++;
 			fname = filename + String.valueOf(i) + "." + ext;
 			outFile = Paths.get(outFolder.toString(), fname);
@@ -38,6 +38,7 @@ public class FileOutput {
 		System.out.print("File in: ");
 		System.out.println(outFile.toString());
 		
+		// Return the file
 		return F;
 	}
 	public static File createJpg(String filepath, String filename, BufferedImage img) throws IOException {

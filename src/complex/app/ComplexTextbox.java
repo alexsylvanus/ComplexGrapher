@@ -19,7 +19,7 @@ import complex.math.*;
 // Class declaration
 public class ComplexTextbox implements ActionListener {
 	// Private members
-	public JTextField jtf1;
+	public JTextField funcField;
 	public JLabel jl;
 	private String expression;
 	private ComplexFunction func;
@@ -43,33 +43,33 @@ public class ComplexTextbox implements ActionListener {
 		jl.setBounds(x, y, (int)jl.getPreferredSize().getWidth(), height);
 		
 		// Create new text field object and assign it to the member text field
-		jtf1 = new JTextField();
-		jtf1.setFont(font);
+		funcField = new JTextField();
+		funcField.setFont(font);
 		
 		// Initialize the boundaries of the text field
-		jtf1.setBounds(x+jl.getWidth()+bufferSpace, y, width, height);
+		funcField.setBounds(x+jl.getWidth()+bufferSpace, y, width, height);
 		
 		// Set the initial text in the box to the function 'z'
 		expression = "z";
-		jtf1.setText(expression);
+		funcField.setText(expression);
 		
 		// Initialize the complex function
 		func = new ComplexFunction(expression);
 		
 		// Allow the text field to receive events from the class
-		jtf1.addActionListener(this);
+		funcField.addActionListener(this);
 	}
 	public void setXY(int x, int y) {
 		jl.setBounds(x, y, jl.getWidth(), jl.getHeight());
-		jtf1.setBounds(x+jl.getWidth()+bufferSpace, y, jtf1.getWidth(), jtf1.getHeight());
+		funcField.setBounds(x+jl.getWidth()+bufferSpace, y, funcField.getWidth(), funcField.getHeight());
 	}
 	public int getEndX() {
-		return (int)jtf1.getBounds().getMaxX();
+		return (int)funcField.getBounds().getMaxX();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		expression = jtf1.getText();
+		expression = funcField.getText();
 		func = new ComplexFunction(expression);
 	}
 	
