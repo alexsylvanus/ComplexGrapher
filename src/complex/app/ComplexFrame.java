@@ -50,7 +50,7 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 		FP = new FunctionPanel();
 		FP.addActionListener(this); // allows the frame to perform an action triggered by the text box in the function panel
 		
-		// Create new dropdown menu
+		// Create new drop down menu
 		String[] lst = {"Weight Method", "Contour Method", "Structured Method"};
 		Algorithm = new JComboBox<String>(lst);
 		Algorithm.setFont(font);
