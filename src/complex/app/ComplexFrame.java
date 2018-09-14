@@ -68,7 +68,7 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 		y_offset = FP.getMaxY()+3*bufferSpace;
 		
 		// Set the bounds of the frame
-		this.setBounds(150, 150, Width, Height);
+		this.setBounds(200, 200, Width, Height);
 		
 		// Create the complex image
 		ComplexGraph g = new ComplexGraph(Width-x_offset, Height-y_offset);
