@@ -142,6 +142,8 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 	public static void main(String[] args) {
 		// ComplexFrame complexframe = new ComplexFrame(screenWidth/2, screenWidth/2, 0, screenHeight/10);
 		ComplexFrame complexframe = new ComplexFrame();
+		
+		// Display the frame
 		complexframe.setVisible(true);
 	}
 }
