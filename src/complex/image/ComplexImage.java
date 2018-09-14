@@ -57,7 +57,10 @@ public class ComplexImage extends BufferedImage {
 		case CONTOUR:
 			fillImageContour();
 			break;
+		case STRUCTURED:
+			fillImageStructured();
 		}
+		
 	}
 	public void fillImageContour() {
 		// Declare local variables
@@ -107,6 +110,31 @@ public class ComplexImage extends BufferedImage {
 				currX = graph.getXvalue(X);
 				c.setReal(currX);
 				color[Y*width+X] = getComplexColorWeightMethod(func.compute(c));
+			}
+		}
+		this.setRGB(0, 0, width, height, color, 0, width);
+	}
+	public void fillImageStructured() {
+		// Declare local variables
+		int X = 0;
+		int Y = 0;
+		int width = this.getWidth();
+		int height = this.getHeight();
+		float currX = graph.getXvalue(X);
+		float currY = graph.getYvalue(Y);
+		Complex c = new Complex(currX, currY);
+		
+		// Declare color array
+		int[] color = new int[width*height];
+		
+		// Iterate over entire image
+		for (Y = 0; Y < height; Y++) {
+			currY = graph.getYvalue(Y);
+			c.setImaginary(currY);
+			for (X = 0; X < width; X++) {
+				currX = graph.getXvalue(X);
+				c.setReal(currX);
+				color[Y*width+X] = getComplexColorStructuredMethod(func.compute(c));
 			}
 		}
 		this.setRGB(0, 0, width, height, color, 0, width);
@@ -167,7 +195,17 @@ public class ComplexImage extends BufferedImage {
 		
 		return rgb;
 	}
-	
+	public int getComplexColorStructuredMethod(Complex Z) {
+		// Declare local variables
+		int rgb = 0;
+		if (isFloatInt(Z.real()) || isFloatInt(Z.imaginary())) {
+			rgb = Color.DARK_GRAY.getRGB();
+		}
+		else {
+			rgb = getComplexColorWeightMethod(Z);
+		}
+		return rgb;
+	}
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		Scanner in = new Scanner(System.in);
@@ -200,5 +238,14 @@ public class ComplexImage extends BufferedImage {
 		}		
 		System.out.println("Goodbye!");
 		in.close();
+	}
+	
+	private boolean isFloatInt(float f) {
+		if ((f < Math.ceil(f)+0.05f) && (f > Math.ceil(f)-0.05f)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

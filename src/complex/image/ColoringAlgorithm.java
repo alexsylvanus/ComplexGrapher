@@ -9,5 +9,6 @@ package complex.image;
  */
 public enum ColoringAlgorithm {
 	WEIGHT,
-	CONTOUR
+	CONTOUR,
+	STRUCTURED
 }

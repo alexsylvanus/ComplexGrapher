@@ -53,6 +53,12 @@ public class Complex {
 	public void setImaginary(float I) {
 		imaginary = I;
 	}
+	public float real() {
+		return real;
+	}
+	public float imaginary() {
+		return imaginary;
+	}
 	
 	// Operators
 	public static Complex Add(Complex z1, Complex z2) {

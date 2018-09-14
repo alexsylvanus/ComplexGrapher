@@ -51,7 +51,7 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 		FP.addActionListener(this); // allows the frame to perform an action triggered by the text box in the function panel
 		
 		// Create new dropdown menu
-		String[] lst = {"Weight Method", "Contour Method"};
+		String[] lst = {"Weight Method", "Contour Method", "Structured Method"};
 		Algorithm = new JComboBox<String>(lst);
 		Algorithm.setFont(font);
 		Algorithm.setBounds(FP.getMaxX(), bufferSpace, Algorithm.getPreferredSize().width, textHeight);
@@ -110,6 +110,9 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 			// If the Contour choice was selected, switch the enum value
 			if (Algorithm.getSelectedItem().equals("Contour Method")) {
 				a = ColoringAlgorithm.CONTOUR;
+			}
+			else if (Algorithm.getSelectedItem().equals("Structured Method")) {
+				a = ColoringAlgorithm.STRUCTURED;
 			}
 			
 			// Generate a new image based on the coloring algorithm

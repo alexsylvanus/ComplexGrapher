@@ -90,6 +90,24 @@ public class ComplexGraph {
 		// Return value
 		return yVal;
 	}
+	public int getXpixel(float x) {
+		int xPixel = 0;
+		
+		// Compute value
+		xPixel = (int)(x*x_space+x0);
+		
+		// Return value
+		return xPixel;
+	}
+	public int getYpixel(float y) {
+		int yPixel = 0;
+		
+		// Compute value
+		yPixel = (int)(y_length-y0-y*y_space);
+		
+		// Return value
+		return yPixel;
+	}
 	public int width() {
 		return x_length;
 	}
