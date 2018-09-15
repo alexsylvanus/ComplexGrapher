@@ -105,7 +105,7 @@ public class ComplexFrame extends JFrame implements ActionListener, WindowParame
 				e1.printStackTrace();
 			}
 		}
-		else {
+		else { // Otherwise, reset the image
 			ColoringAlgorithm a = ColoringAlgorithm.WEIGHT;
 			// If the Contour choice was selected, switch the enum value
 			if (Algorithm.getSelectedItem().equals("Contour Method")) {
