@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 
 // Class Declaration
 public class FileOutput {
+	// Get file object
 	public static File getFilePath(String foldername, String filename, String ext) throws IOException {
 		// Get filepath
 		String home = System.getProperty("user.home");
@@ -43,6 +44,13 @@ public class FileOutput {
 		// Return the file
 		return F;
 	}
+	
+	// Get the file path in string Form
+	public static String getFolder(File f) throws IOException {
+		return f.getParent(); // Get the parent folder of the file
+	}
+	
+	// Create jpg and return the File object
 	public static File createJpg(String filepath, String filename, BufferedImage img) throws IOException {
 		File F = getFilePath(filepath, filename, "jpg");
 		ImageIO.write(img, "jpg", F);
