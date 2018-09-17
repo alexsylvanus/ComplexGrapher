@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
  * @author alexs
  *
  */
+
+// Class Declaration
 public class FileOutput {
 	public static File getFilePath(String foldername, String filename, String ext) throws IOException {
 		// Get filepath

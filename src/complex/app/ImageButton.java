@@ -13,8 +13,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// User imports
+import static complex.app.WindowParameters.*;
+
 // Class declaration
-public class ImageButton extends JPanel implements WindowParameters {
+public class ImageButton extends JPanel {
 	/**
 	 * Generate serial ID
 	 */

@@ -25,9 +25,10 @@ import java.io.*;
 // User imports
 import complex.image.*;
 import complex.math.*;
+import static complex.app.WindowParameters.*;
 
 // Class declaration
-public class ComplexFrame extends JFrame implements ActionListener, WindowParameters{
+public class ComplexFrame extends JFrame implements ActionListener {
 	// Generate serial ID
 	private static final long serialVersionUID = 5470579037102672801L;
 	
