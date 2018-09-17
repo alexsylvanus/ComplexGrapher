@@ -10,5 +10,6 @@ package complex.image;
 public enum ColoringAlgorithm {
 	WEIGHT,
 	CONTOUR,
+	DOMAIN,
 	STRUCTURED
 }

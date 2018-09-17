@@ -44,25 +44,16 @@ public class ComplexImage extends BufferedImage {
 		super(g.width(), g.height(), BufferedImage.TYPE_INT_RGB);
 		graph = g;
 		func = f;
-		fillImageWeight();
+		fillImage(ColoringAlgorithm.WEIGHT);
 	}
 	public ComplexImage(ComplexGraph g, ComplexFunction f, ColoringAlgorithm a) {
 		super(g.width(), g.height(), BufferedImage.TYPE_INT_RGB);
 		graph = g;
 		func = f;
-		switch (a) {
-		case WEIGHT:
-			fillImageWeight();
-			break;
-		case CONTOUR:
-			fillImageContour();
-			break;
-		case STRUCTURED:
-			fillImageStructured();
-		}
-		
+		fillImage(a);
 	}
-	public void fillImageContour() {
+	
+	public void fillImage(ColoringAlgorithm a) {
 		// Declare local variables
 		int X = 0;
 		int Y = 0;
@@ -71,10 +62,19 @@ public class ComplexImage extends BufferedImage {
 		float currX = graph.getXvalue(X);
 		float currY = graph.getYvalue(Y);
 		Complex c = new Complex(currX, currY);
+		Complex f = new Complex();
+		Complex[] vec = new Complex[width*height];
 		
 		// Declare color array
 		int[] color = new int[width*height];
 		
+		// Variables for structured case
+		int xGrid = 0;
+		int yGrid = 0;
+		int xTemp = 0;
+		int yTemp = 0;
+		// float xMin = 0;
+		// float yMin = 0;
 		// Iterate over entire image
 		for (Y = 0; Y < height; Y++) {
 			currY = graph.getYvalue(Y);
@@ -82,59 +82,50 @@ public class ComplexImage extends BufferedImage {
 			for (X = 0; X < width; X++) {
 				currX = graph.getXvalue(X);
 				c.setReal(currX);
-				// c.setImaginary(currY);
-				// c = func.compute(c);
-				color[Y*width+X] = getComplexColorContourMethod(func.compute(c));
+				f = func.compute(c);
+				vec[Y*width+X] = f;
+				color[Y*width+X] = getComplexColor(f, a);
+				if (a.equals(ColoringAlgorithm.STRUCTURED)) {
+					xGrid = (int)Math.ceil(f.real());
+					yGrid = (int)Math.ceil(f.imaginary());
+					if (xGrid != xTemp) {
+						color[Y*width+X] = Color.DARK_GRAY.getRGB();
+					}
+					if (yGrid != yTemp) {
+						color[Y*width+X] = Color.DARK_GRAY.getRGB();
+						yTemp = yGrid;
+					}
+					xTemp = xGrid;
+					
+					// System.out.println(xGrid);
+					// System.out.println(yGrid);
+				}
 			}
+			yTemp = yGrid;
 		}
-		this.setRGB(0, 0, width, height, color, 0, width);
-	}
-	public void fillImageWeight() {
-		// Declare local variables
-		int X = 0;
-		int Y = 0;
-		int width = this.getWidth();
-		int height = this.getHeight();
-		float currX = graph.getXvalue(X);
-		float currY = graph.getYvalue(Y);
-		Complex c = new Complex(currX, currY);
 		
-		// Declare color array
-		int[] color = new int[width*height];
-		
-		// Iterate over entire image
-		for (Y = 0; Y < height; Y++) {
-			currY = graph.getYvalue(Y);
-			c.setImaginary(currY);
+		xGrid = 0;
+		yGrid = 0;
+		xTemp = 0;
+		yTemp = 0;
+		// For the structured case, finish filling in the grid lines
+		if (a.equals(ColoringAlgorithm.STRUCTURED)) {
 			for (X = 0; X < width; X++) {
-				currX = graph.getXvalue(X);
-				c.setReal(currX);
-				color[Y*width+X] = getComplexColorWeightMethod(func.compute(c));
-			}
-		}
-		this.setRGB(0, 0, width, height, color, 0, width);
-	}
-	public void fillImageStructured() {
-		// Declare local variables
-		int X = 0;
-		int Y = 0;
-		int width = this.getWidth();
-		int height = this.getHeight();
-		float currX = graph.getXvalue(X);
-		float currY = graph.getYvalue(Y);
-		Complex c = new Complex(currX, currY);
-		
-		// Declare color array
-		int[] color = new int[width*height];
-		
-		// Iterate over entire image
-		for (Y = 0; Y < height; Y++) {
-			currY = graph.getYvalue(Y);
-			c.setImaginary(currY);
-			for (X = 0; X < width; X++) {
-				currX = graph.getXvalue(X);
-				c.setReal(currX);
-				color[Y*width+X] = getComplexColorStructuredMethod(func.compute(c));
+				for (Y = 0; Y < height; Y++) {
+					f = vec[Y*width+X]; // Get the current complex number
+					xGrid = (int)Math.ceil(f.real());
+					yGrid = (int)Math.ceil(f.imaginary());
+					if (xGrid != xTemp) {
+						color[Y*width+X] = Color.DARK_GRAY.getRGB();
+					}
+					if (yGrid != yTemp) {
+						color[Y*width+X] = Color.DARK_GRAY.getRGB();
+					}
+					xTemp = xGrid;
+					yTemp = yGrid;
+				}
+				
+
 			}
 		}
 		this.setRGB(0, 0, width, height, color, 0, width);
@@ -177,7 +168,7 @@ public class ComplexImage extends BufferedImage {
 		int rgb = 0;
 		float h, s, b; // hue, saturation, and brightness
 		float radius, angle;
-		float w = (float)graph.width()/(float)graph.spacing();
+		float weight = (float)graph.width()/(float)graph.spacing();
 		
 		// Get the radius and angle
 		radius = z.radius();
@@ -187,23 +178,72 @@ public class ComplexImage extends BufferedImage {
 		h = (float)(0.5f*angle/Math.PI);
 		
 		// Set the saturation and brightness based on the radius
-		s = w/(radius+w);
-		b = 1 - 1/(w*radius+1);
+		s = weight/(radius+weight);
+		b = 1 - 1/(weight*radius+1);
 		
 		// Get color from HSBtoRGB conversion
 		rgb = Color.HSBtoRGB(h, s, b);
 		
 		return rgb;
 	}
-	public int getComplexColorStructuredMethod(Complex Z) {
+	
+	public int getComplexColorDomainMethod(Complex z) {
 		// Declare local variables
 		int rgb = 0;
-		if (isFloatInt(Z.real()) || isFloatInt(Z.imaginary())) {
+		float h, s, b, l; // Hue, saturation, brightness, and lightness values
+		float radius, angle;
+		float r = (float)graph.width()/(float)graph.spacing();
+		
+		// Get the radius and angle
+		radius = z.radius();
+		angle = z.phase();
+		
+		// Set the hue based on the angle
+		h = (float)(0.5f*angle/Math.PI);
+		
+		// Set saturation to 100%
+		s = 1.000f;
+		
+		// Set the lightness to 1 - e^(-3|z|)
+		l = (float)Math.exp(-radius/r);
+		l = 1-l*l*l; // Increase the color displayed
+		// Convert to HSL to HSB
+		b = (float)(l+s*(1-(Math.abs(2.000f*l-1)))/2.000f);
+		s = 2.000f*(b-l)/b;
+		
+		// Get color from RGB conversion
+		rgb = Color.HSBtoRGB(h, s, b);
+		return rgb;
+	}
+	public int getComplexColorStructuredMethod(Complex z) {
+		// Declare local variables
+		int rgb = 0;
+		if (isFloatInt(z.real()) || isFloatInt(z.imaginary())) {
 			rgb = Color.DARK_GRAY.getRGB();
 		}
 		else {
-			rgb = getComplexColorWeightMethod(Z);
+			rgb = getComplexColorWeightMethod(z);
 		}
+		return rgb;
+	}
+	public int getComplexColor(Complex z, ColoringAlgorithm a) {
+		// Declare local variables
+		int rgb = 0;
+		
+		// Chose algorithm
+		switch(a) {
+		case WEIGHT:
+		case STRUCTURED:
+			rgb = getComplexColorWeightMethod(z);
+			break;
+		case DOMAIN:
+			rgb = getComplexColorDomainMethod(z);
+			break;
+		case CONTOUR:
+			rgb = getComplexColorContourMethod(z);
+		}
+		
+		// Return the color
 		return rgb;
 	}
 	public static void main(String[] args) throws IOException {
@@ -227,7 +267,7 @@ public class ComplexImage extends BufferedImage {
 			System.out.println("Creating image . . .");
 			start = Instant.now();
 			CI = new ComplexImage(3000, 2000, 9, 6, BufferedImage.TYPE_INT_RGB, function);
-			CI.fillImageContour();
+			CI.fillImage(ColoringAlgorithm.WEIGHT);
 			end = Instant.now();
 			System.out.println(Duration.between(start, end));
 			FileOutput.createJpg(folder, "Graph", CI);

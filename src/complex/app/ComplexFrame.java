@@ -52,7 +52,7 @@ public class ComplexFrame extends JFrame implements ActionListener {
 		FP.addActionListener(this); // allows the frame to perform an action triggered by the text box in the function panel
 		
 		// Create new drop down menu
-		String[] lst = {"Weight Method", "Contour Method", "Structured Method"};
+		String[] lst = {"Weight Method", "Contour Method", "Domain Method", "Structured Method"};
 		Algorithm = new JComboBox<String>(lst);
 		Algorithm.setFont(font);
 		Algorithm.setBounds(FP.getMaxX(), bufferSpace, Algorithm.getPreferredSize().width, textHeight);
@@ -114,6 +114,9 @@ public class ComplexFrame extends JFrame implements ActionListener {
 			}
 			else if (Algorithm.getSelectedItem().equals("Structured Method")) {
 				a = ColoringAlgorithm.STRUCTURED;
+			}
+			else if (Algorithm.getSelectedItem().equals("Domain Method")) {
+				a = ColoringAlgorithm.DOMAIN;
 			}
 			
 			// Generate a new image based on the coloring algorithm
