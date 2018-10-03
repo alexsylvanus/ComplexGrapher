@@ -107,7 +107,13 @@ public class Complex {
 		Complex Z = new Complex();
 		
 		// Declare local variables
-		float radius = z1.radius()/z2.radius();
+		float radius;
+		if (z2.radius() != 0) {
+			radius = z1.radius()/z2.radius();
+		}
+		else {
+			radius = Float.MAX_VALUE;
+		}
 		float angle = z1.phase()-z2.phase();
 		
 		// Compute result
@@ -233,6 +239,25 @@ public class Complex {
 	}
 	public Complex conj() {
 		return new Complex(real, -imaginary);
+	}
+	public Complex swrl() {
+		// Declare variables
+		float radius;
+		float angle;
+		
+		// Check for division by 0
+		if (radius() != 0) {
+			radius = 1/radius();
+			angle = Ln(radius()) - phase();
+		}
+		else {
+			radius = Float.MAX_VALUE;
+			angle = -Ln(radius) - phase();
+		}
+		
+		float Real = radius*Cos(angle);
+		float Imaginary = radius*Sin(angle);
+		return new Complex(Real, Imaginary);
 	}
 	
 	/** Define private functions (for code clarity) */

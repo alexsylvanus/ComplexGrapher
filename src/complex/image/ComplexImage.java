@@ -83,9 +83,9 @@ public class ComplexImage extends BufferedImage {
 				currX = graph.getXvalue(X);
 				c.setReal(currX);
 				f = func.compute(c);
-				vec[Y*width+X] = f;
-				color[Y*width+X] = getComplexColor(f, a);
-				if (a.equals(ColoringAlgorithm.STRUCTURED)) {
+				vec[Y*width+X] = f; // Set the vector equal to the output of the function
+				color[Y*width+X] = getComplexColor(f, a); // Get the color from the complex output, store it in vector
+				if (a.equals(ColoringAlgorithm.STRUCTURED)) { // Determine if structured line pixel needs to be placed
 					xGrid = (int)Math.ceil(f.real());
 					yGrid = (int)Math.ceil(f.imaginary());
 					if (xGrid != xTemp) {
@@ -152,10 +152,10 @@ public class ComplexImage extends BufferedImage {
         float p = 1.0f - q;
         
         // The values should always be near 1 until they get very near zero
-        float p1 = 1-q*q;
-        float q1 = 1-p*p;
+        float p1 = 1-q*q*q;
+        float q1 = 1-p*p*p;
         // fix s and v from p1 and q1
-        float s = 0.3f+0.7f*p1;
+        float s = 0.5f+0.5f*p1;
         float v = 0.3f+0.7f*q1;
         rgb = Color.HSBtoRGB(0.5f*theta/((float)Math.PI), v, s);
         

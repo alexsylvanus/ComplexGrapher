@@ -57,8 +57,9 @@ public class ComplexFunction {
 		Stack<String> ops = new Stack<String>();
 		Stack<String> parsed = new Stack<String>();
 		
-		// Strip Whitespace
-		s = stripWhitespace(s);
+		// Try to fix string
+		s = attemptFix(s);
+		System.out.println(s);
 		
 		// Loop through string
 		for (int i = 0; i<s.length(); i++) {
@@ -393,10 +394,79 @@ public class ComplexFunction {
 		case "abs":
 		case "ngtv":
 		case "conj":
+		case "swrl":
 			return true;
 		default:
 			return false;
 		}
+	}
+	private static boolean needsMultiplier(char c1, char c2) {
+		// Label characters
+		charType C1 = labelChar(c1);
+		charType C2 = labelChar(c2);
+		
+		/*
+		 * Rules for insertion
+		 * if one is an operator, return false
+		 * if the first is an open paren, return false
+		 * if second is closed paren, return false
+		 * if first is char, check that unless char is i or z, the next is openparan/char, else return true
+		 * if the first is numerical, the next should be numerical else return true
+		 * 
+		 */
+		
+		// Begin nested switch statement
+		switch(C1) {
+		case LETTER:
+			if (c1 != 'i' && c1 != 'z') { // Check case where letter is part of string
+				switch(C2) {
+				case OPENPAREN:
+				case LETTER:
+					return false;
+				default:
+					return true;
+				}
+			}
+			else if (c1 == 'i') { // Check the case for imaginary character, 'i'
+				switch(C2) {
+				case CLOSEDPAREN:
+				case OPERATOR:
+				case LETTER: // If it's followed by another character, it's probably part of a function string, therefore ignore it
+					return false;
+				default: // Otherwise, it's being multiplied, therefore return true
+					return true;
+				}
+			}
+			else if (c1 == 'z') {
+				System.out.println("Checking z");
+				switch(C2) { // Check case for variable character, 'z'
+				case CLOSEDPAREN:
+				case OPERATOR: 
+					return false; // Unless followed by an operator/closedparen, should have multiplier character 
+				default:
+					return true; // Return true if  'z' is followed by openparen/letter/number
+				}
+			}
+		case NUMERICAL: // Check that numbers are followed by numbers/operators/closedparens
+			switch(C2) {
+			case CLOSEDPAREN:
+			case OPERATOR:
+			case NUMERICAL:
+				return false; // If followed by letters/openparens, return true
+			default:
+				return true;
+			}
+		case CLOSEDPAREN: // Check that if closed parens are not followed by operators, return true
+			switch(C2) {
+			case OPERATOR:
+			case CLOSEDPAREN:
+				return false;
+			default:
+				return true;
+			}
+		default: return false; // If first character is an openparen/operator, no need for insertion
+		}
+		
 	}
 	
 	private static String stripWhitespace(String s) {
@@ -415,6 +485,36 @@ public class ComplexFunction {
 		}
 		return stripped;
 	}
+	private static String insertMultipliers(String s) {
+		// Declare return variable
+		String modified = "";
+		
+		// Declare temporary character variable
+		char c = 'a';
+		
+		// Loop through string, checking for adjacent numbers and non operator symbols
+		for (int i = 0; i < s.length(); i++) {
+			c = s.charAt(i);
+			if (i > 0) { // Makes sure not to check before beginning of the array
+				if (needsMultiplier(s.charAt(i - 1), c)) { // Check if a '*' needs to be inserted into the string
+					modified+='*';
+				}
+			}
+			modified+=c; // Add the most recent character to the modified string
+		}
+		return modified;
+	}
+	private static String attemptFix(String s) {
+		// Remove the whitespace
+		String fixed = stripWhitespace(s);
+		
+		// Insert the multipliers
+		fixed = insertMultipliers(fixed);
+		
+		// Return result
+		return fixed;
+	}
+	
 	private static charType labelChar(char c) {
 		// Declare return variable
 		charType ret = charType.ERROR;
@@ -455,6 +555,7 @@ public class ComplexFunction {
 			case "abs": return z.abs();
 			case "ngtv": return z.ngtv();
 			case "conj": return z.conj();
+			case "swrl": return z.swrl();
 			}
 		}
 		else {
