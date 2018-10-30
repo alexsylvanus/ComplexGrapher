@@ -104,7 +104,7 @@ public class ComplexFrame extends JFrame implements ActionListener {
 				ComplexGraph G = new ComplexGraph(2700, 2000);
 				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), ColoringAlgorithm.WEIGHT);
 				FileOutput.createJpg("PuzzleImages", "Puzzle", I);
-				*/
+				//*/
 				f = FileOutput.createJpg("ComplexGraphs", "Graph", image); // Get the file
 				IB.setText("File in: "+f.getPath()); // Set the file label
 			} catch (IOException e1) {
