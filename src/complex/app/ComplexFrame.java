@@ -102,7 +102,7 @@ public class ComplexFrame extends JFrame implements ActionListener {
 			try {
 				/* ENABLE FOR SPECIFIED SIZE OUTPUT
 				ComplexGraph G = new ComplexGraph(2700, 2000);
-				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), ColoringAlgorithm.WEIGHT);
+				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), ColoringAlgorithm.DOMAIN);
 				FileOutput.createJpg("PuzzleImages", "Puzzle", I);
 				//*/
 				f = FileOutput.createJpg("ComplexGraphs", "Graph", image); // Get the file
