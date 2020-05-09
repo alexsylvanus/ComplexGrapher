@@ -56,4 +56,11 @@ public class FileOutput {
 		ImageIO.write(img, "jpg", F);
 		return F;
 	}
+	
+	// Create png and return the File object
+	public static File createPng(String filepath, String filename, BufferedImage img) throws IOException {
+		File F = getFilePath(filepath, filename, "png");
+		ImageIO.write(img, "png", F);
+		return F;
+	}
 }
