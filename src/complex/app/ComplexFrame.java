@@ -97,13 +97,25 @@ public class ComplexFrame extends JFrame implements ActionListener {
 		// Create graph from Screen size and offset
 		ComplexGraph g = new ComplexGraph(this.getWidth() - x_offset, this.getHeight() - y_offset);
 		
+		ColoringAlgorithm a = ColoringAlgorithm.WEIGHT;
+		// If the Contour choice was selected, switch the enum value
+		if (Algorithm.getSelectedItem().equals("Contour Method")) {
+			a = ColoringAlgorithm.CONTOUR;
+		}
+		else if (Algorithm.getSelectedItem().equals("Structured Method")) {
+			a = ColoringAlgorithm.STRUCTURED;
+		}
+		else if (Algorithm.getSelectedItem().equals("Domain Method")) {
+			a = ColoringAlgorithm.DOMAIN;
+		}
+		
 		// Check if the button was pressed
 		if (e.getSource().equals(IB.jpgButton())) {
 			try {
-				/* ENABLE FOR SPECIFIED SIZE OUTPUT
-				ComplexGraph G = new ComplexGraph(2700, 2000);
-				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), ColoringAlgorithm.DOMAIN);
-				FileOutput.createJpg("PuzzleImages", "Puzzle", I);
+				/* ENABLE FOR SPECIFIED SIZE OUTPUT*/
+				ComplexGraph G = new ComplexGraph(2700*3, 2000*3);
+				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), a);
+				FileOutput.createPng("ComplexPNGs", "graph", I);
 				//*/
 				f = FileOutput.createJpg("ComplexGraphs", "Graph", image); // Get the file
 				IB.setText("File in: "+f.getPath()); // Set the file label
@@ -112,17 +124,6 @@ public class ComplexFrame extends JFrame implements ActionListener {
 			}
 		}
 		else { // Otherwise, reset the image
-			ColoringAlgorithm a = ColoringAlgorithm.WEIGHT;
-			// If the Contour choice was selected, switch the enum value
-			if (Algorithm.getSelectedItem().equals("Contour Method")) {
-				a = ColoringAlgorithm.CONTOUR;
-			}
-			else if (Algorithm.getSelectedItem().equals("Structured Method")) {
-				a = ColoringAlgorithm.STRUCTURED;
-			}
-			else if (Algorithm.getSelectedItem().equals("Domain Method")) {
-				a = ColoringAlgorithm.DOMAIN;
-			}
 			
 			// Generate a new image based on the coloring algorithm
 			image = new ComplexImage(g, new ComplexFunction(FP.getText()), a);
