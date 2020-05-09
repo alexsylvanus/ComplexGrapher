@@ -113,7 +113,7 @@ public class ComplexFrame extends JFrame implements ActionListener {
 		if (e.getSource().equals(IB.jpgButton())) {
 			try {
 				/* ENABLE FOR SPECIFIED SIZE OUTPUT*/
-				ComplexGraph G = new ComplexGraph(2700*3, 2000*3);
+				ComplexGraph G = new ComplexGraph(2700*2, 2000*2);
 				ComplexImage I = new ComplexImage(G, new ComplexFunction(FP.getText()), a);
 				FileOutput.createPng("ComplexPNGs", "graph", I);
 				//*/
